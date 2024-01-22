@@ -50,6 +50,13 @@ export const MainPage = () => {
     });
 
     useEffect(() => {
+        if (sessionStorage.getItem("redirectUrl")) {
+            navigate("/signin/redirect");
+            return;
+        }
+    }, [navigate]);
+
+    useEffect(() => {
         if (!localStorage.getItem("token")) {
             navigate("/signin");
             return;
