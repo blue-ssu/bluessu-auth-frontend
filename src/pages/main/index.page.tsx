@@ -85,9 +85,11 @@ export const MainPage = () => {
                     />
                 ) : (
                     <CenterBox.Title
-                        icon={<Logo src={data?.profileImage} size="64px" />}
-                        title={`${data?.name}님, 반가워요!`}
-                        subtitle={`${data?.department} ${data?.studentId}`}
+                        icon={
+                            <Logo src={data?.user?.profileImage} size="64px" />
+                        }
+                        title={`${data?.user?.name}님, 반가워요!`}
+                        subtitle={`${data?.user?.department} ${data?.user?.studentId}`}
                     />
                 )}
                 <CenterBox.Description>
