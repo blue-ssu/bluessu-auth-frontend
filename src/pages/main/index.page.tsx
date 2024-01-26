@@ -1,53 +1,15 @@
-import { CenterBox, Flex, SSOLoginButton, Spinner } from "../../components";
-import { Logo } from "../../components/Logo/Logo";
+import { CenterBox, Spinner } from "../../components";
 
 import BlueSSULogo from "../../assets/bluessu.png";
-import styled from "styled-components";
-import { Select } from "../../components/Select";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
-import axios from "axios";
-
-const Link = styled.a`
-    color: var(--bluessu-caption);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.5;
-    transition: color 0.1s;
-
-    &:hover {
-        color: var(--bluessu-text);
-    }
-`;
-
-const ButtonBox = styled.div`
-    width: 100%;
-    padding: 16px 32px;
-`;
-
-const getUser = async () => {
-    const res = await axios.get(
-        `${import.meta.env.VITE_CORE_SERVER}/users/me`,
-        {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-        }
-    );
-    return res.data;
-};
+import { Button } from "@/components/ui/button";
+import { Footer } from "@/containers/Footer/Footer";
+import { useUser } from "@/hooks/useUser";
 
 export const MainPage = () => {
     const navigate = useNavigate();
-    const { data, isLoading } = useQuery("user", getUser, {
-        enabled: localStorage.getItem("token") !== null,
-        onError: () => {
-            localStorage.removeItem("token");
-            navigate("/signin");
-        },
-    });
+    const { user, isLoading } = useUser();
 
     useEffect(() => {
         if (sessionStorage.getItem("redirectUrl")) {
@@ -71,7 +33,7 @@ export const MainPage = () => {
     return (
         <CenterBox minHeight="320px">
             <CenterBox.Header>
-                <Logo src={BlueSSULogo} size="20px" />
+                <img src={BlueSSULogo} className="w-[20px] h-[20px]" />
                 BlueSSU 로그인
             </CenterBox.Header>
             <CenterBox.Body>
@@ -86,32 +48,30 @@ export const MainPage = () => {
                 ) : (
                     <CenterBox.Title
                         icon={
-                            <Logo src={data?.user?.profileImage} size="64px" />
+                            <img
+                                src={user?.profileImage}
+                                className="w-[64px] h-[64px]"
+                            />
                         }
-                        title={`${data?.user?.name}님, 반가워요!`}
-                        subtitle={`${data?.user?.department} ${data?.user?.studentId}`}
+                        title={`${user?.name}님, 반가워요!`}
+                        subtitle={`${user?.department} ${user?.studentId}`}
                     />
                 )}
                 <CenterBox.Description>
                     이 페이지는 개발 중인 페이지입니다.
                 </CenterBox.Description>
-                <ButtonBox>
-                    <SSOLoginButton onClick={() => logout()}>
+                <div className="px-[32px] py-[16px] w-full">
+                    <Button
+                        onClick={() => logout()}
+                        className="w-full"
+                        variant={"outline"}
+                    >
                         로그아웃
-                    </SSOLoginButton>
-                </ButtonBox>
+                    </Button>
+                </div>
             </CenterBox.Body>
             <CenterBox.Footer>
-                <Flex.Between>
-                    <Select width="150px">
-                        <option value="ko">한국어</option>
-                    </Select>
-                    <Flex.Row gap="16px" style={{ padding: "0px 8px" }}>
-                        <Link href="#">소개</Link>
-                        <Link href="#">개인정보처리방침</Link>
-                        <Link href="#">약관</Link>
-                    </Flex.Row>
-                </Flex.Between>
+                <Footer />
             </CenterBox.Footer>
         </CenterBox>
     );

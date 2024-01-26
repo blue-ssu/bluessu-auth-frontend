@@ -1,46 +1,25 @@
 import React from "react";
-import { styled } from "styled-components";
-import { Flex } from "..";
-
-const Container = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 16px 32px;
-    gap: 8px;
-`;
-
-const Title = styled.div`
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 1.5;
-    color: var(--bluessu-text);
-`;
-
-const Subtitle = styled.div`
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.5;
-    color: var(--bluessu-caption);
-`;
 
 export const CenterBoxTitle = ({
     icon,
     title,
     subtitle,
 }: {
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
     title: React.ReactNode;
     subtitle: React.ReactNode;
 }) => {
     return (
-        <Container>
+        <div className="w-full flex flex-col items-center px-[32px] py-[16px] gap-[8px]">
             {icon}
-            <Flex direction="column" align="center">
-                <Title>{title}</Title>
-                <Subtitle>{subtitle}</Subtitle>
-            </Flex>
-        </Container>
+            <div className="flex flex-col items-center">
+                <div className="text-[20px] font-bold leading-[1.5] text-[var(--bluessu-text)]">
+                    {title}
+                </div>
+                <div className="text-sm leading-5 text-muted-foreground">
+                    {subtitle}
+                </div>
+            </div>
+        </div>
     );
 };

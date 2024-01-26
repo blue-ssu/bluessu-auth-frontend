@@ -2,6 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { signInRouter } from "./pages/signin/router";
 import { NotFoundPage } from "./pages/NotFound";
 import { mainRouter } from "./pages/main/router";
+import { oAuthRouter } from "./pages/oauth/router";
 
 const A = () => <div>A</div>;
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
     {
         path: "/signin",
         children: signInRouter,
+    },
+    {
+        path: "/oauth",
+        children: oAuthRouter,
     },
 ]);
 
